@@ -43,4 +43,16 @@ public class TestController {
 
         return "success";
     }
+
+    @GetMapping("/test03")
+    @ApiOperation(value="测试日志")
+    public String test03(){
+        log.trace("trace");
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
+
+        return "success";
+    }
 }
