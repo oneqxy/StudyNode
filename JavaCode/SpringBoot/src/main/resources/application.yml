@@ -1,0 +1,57 @@
+#服务相关配置
+server:
+  port: 8080
+
+#spring相关配置
+spring:
+  #切换配置文件
+  profiles:
+    active: test
+  #去除默认druid数据库配置
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  #freemarker配置
+  freemarker:
+    template-loader-path: classpath:/templates/
+    cache: false
+    charset: utf-8
+    check-template-location: true
+    content-type: text/html
+    expose-request-attributes: false
+    expose-session-attributes: false
+    request-context-attribute: requst
+    suffix: .ftl
+    settings:
+      date_format: yyyy-MM-dd
+      time_format: HH:mm:ss
+      datetime_format: yyyy-MM-dd HH:mm:ss
+  #邮箱配置
+  mail:
+    host: smtp.ipplus360.com # 邮箱smtp主机
+    username: noreply@ipplus360.com
+    password: AiWenKeJi@2020& # 这里邮箱开通POP3/SMTP提供的授权码，如果邮箱服务商没有授权码，可以使用密码代替
+    protocol: smtp
+    default-encoding: UTF-8
+
+#mybatis-plus配置
+mybatis-plus:
+  # xml地址
+  mapper-locations: classpath:mapper/*Mapper.xml
+  # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名
+  type-aliases-package: com.ipplus360.ipplus360email.entity
+  # 该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
+  type-aliases-super-type: java.lang.Object
+  configuration:
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 驼峰下划线转换
+    map-underscore-to-camel-case: true
+    # 配置的缓存的全局开关
+    cache-enabled: false
+    # 延时加载的开关
+    lazy-loading-enabled: true
+    # 开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    multiple-result-sets-enabled: true
+    use-generated-keys: true
+    default-statement-timeout: 60
+    default-fetch-size: 100
