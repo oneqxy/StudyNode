@@ -1,6 +1,9 @@
 package com.qin.myspringboot.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.qin.myspringboot.exception.MyException;
+import com.qin.myspringboot.springboot.entity.Person;
 import com.qin.myspringboot.springboot.service.IPersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -8,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +49,7 @@ public class TestController {
     }
 
     @GetMapping("/test03")
-    @ApiOperation(value="测试日志")
+    @ApiOperation(value="日志测试")
     public String test03(){
         log.trace("trace");
         log.debug("debug");
@@ -54,5 +58,20 @@ public class TestController {
         log.error("error");
 
         return "success";
+    }
+
+    @GetMapping("/test04")
+    @ApiOperation(value="异常测试")
+    public String test04(){
+
+        throw new MyException("异常测试");
+
+    }
+
+    @GetMapping("/test05")
+    @ApiOperation("缓存测试")
+    @Cacheable("person")
+    public Person test05(){
+        return personService.getOne(new QueryWrapper<Person>().eq("id" ,1));
     }
 }
