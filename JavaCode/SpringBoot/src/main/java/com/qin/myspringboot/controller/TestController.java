@@ -2,6 +2,7 @@ package com.qin.myspringboot.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.qin.myspringboot.config.RabbitConfig;
 import com.qin.myspringboot.exception.MyException;
 import com.qin.myspringboot.springboot.entity.Person;
 import com.qin.myspringboot.springboot.service.IPersonService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -23,6 +25,9 @@ public class TestController {
 
     @Autowired
     private IPersonService personService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @GetMapping("/test01/{name}/{age}")
     @ApiOperation(value="方法名称", notes="方法描述")
@@ -73,5 +78,12 @@ public class TestController {
     @Cacheable("person")
     public Person test05(){
         return personService.getOne(new QueryWrapper<Person>().eq("id" ,1));
+    }
+
+
+    @GetMapping("/test06")
+    @ApiOperation("消息队列测试")
+    public void test06(){
+        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE,"QUEUE","陈意涵");
     }
 }

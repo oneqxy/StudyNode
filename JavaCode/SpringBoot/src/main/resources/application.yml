@@ -32,6 +32,13 @@ spring:
     password: AiWenKeJi@2020& # 这里邮箱开通POP3/SMTP提供的授权码，如果邮箱服务商没有授权码，可以使用密码代替
     protocol: smtp
     default-encoding: UTF-8
+  #rabbitmq配置
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 
 #mybatis-plus配置
 mybatis-plus:
