@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestTask {
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    //@Scheduled(cron = "0 */1 * * * ?")
     public void test01() {
         log.error("定时器");
         System.out.println("hello world");
