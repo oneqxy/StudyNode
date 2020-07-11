@@ -17,7 +17,7 @@ public class RabbitConfig {
     //创建队列
     @Bean(QUEUE)
     public Queue QUEUE() {
-        Queue queue = new Queue(QUEUE);
+        Queue queue = new Queue(QUEUE,true);
         return queue;
     }
 
@@ -31,7 +31,7 @@ public class RabbitConfig {
     @Bean
     public Binding BINDING_QUEUE_EXCHANGE(@Qualifier(QUEUE) Queue queue,
                                           @Qualifier(EXCHANGE) Exchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(QUEUE).noargs();
+        return BindingBuilder.bind(queue).to(exchange).with("QUEUE").noargs();
 
     }
 

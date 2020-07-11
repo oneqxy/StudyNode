@@ -34,11 +34,18 @@ spring:
     default-encoding: UTF-8
   #rabbitmq配置
   rabbitmq:
-    host: 127.0.0.1
+    host: 192.168.31.128
     port: 5672
-    username: guest
-    password: guest
+    username: root
+    password: 123456
     virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual
 
 #mybatis-plus配置
 mybatis-plus:
