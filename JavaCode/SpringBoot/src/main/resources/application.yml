@@ -7,6 +7,10 @@ spring:
   #切换配置文件
   profiles:
     active: test
+#  security:
+#    user:
+#      name: admin  # 用户名
+#      password: 123456  # 密码
   #去除默认druid数据库配置
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
@@ -20,18 +24,18 @@ spring:
     expose-request-attributes: false
     expose-session-attributes: false
     request-context-attribute: requst
-    suffix: .ftl
+    suffix: .ftlh
     settings:
       date_format: yyyy-MM-dd
       time_format: HH:mm:ss
       datetime_format: yyyy-MM-dd HH:mm:ss
-  #邮箱配置
-  mail:
-    host: smtp.ipplus360.com # 邮箱smtp主机
-    username: noreply@ipplus360.com
-    password: AiWenKeJi@2020& # 这里邮箱开通POP3/SMTP提供的授权码，如果邮箱服务商没有授权码，可以使用密码代替
-    protocol: smtp
-    default-encoding: UTF-8
+#  #邮箱配置
+#  mail:
+#    host: smtp.ipplus360.com # 邮箱smtp主机
+#    username: noreply@ipplus360.com
+#    password: AiWenKeJi@2020& # 这里邮箱开通POP3/SMTP提供的授权码，如果邮箱服务商没有授权码，可以使用密码代替
+#    protocol: smtp
+#    default-encoding: UTF-8
   #rabbitmq配置
   rabbitmq:
     host: 192.168.31.128
@@ -50,9 +54,9 @@ spring:
 #mybatis-plus配置
 mybatis-plus:
   # xml地址
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/**/*Mapper.xml
   # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名
-  type-aliases-package: com.ipplus360.ipplus360email.entity
+  type-aliases-package: com.qin.myspringboot.*.entity
   # 该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   type-aliases-super-type: java.lang.Object
   configuration:

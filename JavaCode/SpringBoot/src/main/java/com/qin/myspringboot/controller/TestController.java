@@ -98,6 +98,12 @@ public class TestController implements RabbitTemplate.ConfirmCallback, RabbitTem
         rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE,"QUEUE","陈意涵",new CorrelationData(UUID.randomUUID().toString()));
     }
 
+    @GetMapping("/test07")
+    @ApiOperation("安全验证测试")
+    public String test07(){
+       return "hello world ~";
+    }
+
     @Override
     public void confirm(CorrelationData correlationData, boolean b, String s) {
         if (b) {
