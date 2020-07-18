@@ -26,19 +26,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/test")
 @Api("测试使用")
-public class TestController implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback   {
+public class TestController {
 
     @Autowired
     private IPersonService personService;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
-    @PostConstruct
-    public void init() {
-        rabbitTemplate.setReturnCallback(this);
-        rabbitTemplate.setConfirmCallback(this);
-    }
 
     @GetMapping("/test01/{name}/{age}")
     @ApiOperation(value="方法名称", notes="方法描述")
@@ -91,24 +85,17 @@ public class TestController implements RabbitTemplate.ConfirmCallback, RabbitTem
         return personService.getOne(new QueryWrapper<Person>().eq("id" ,1));
     }
 
-
     @GetMapping("/test06")
+    @ApiOperation("缓存测试")
+    @Cacheable("person6")
+    public Person test06(){
+        return personService.getOne(new QueryWrapper<Person>().eq("id" ,1));
+    }
+
+
+    @GetMapping("/test07")
     @ApiOperation("消息队列测试")
-    public void test06(){
+    public void test07(){
         rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE,"QUEUE","陈意涵",new CorrelationData(UUID.randomUUID().toString()));
-    }
-
-    @Override
-    public void confirm(CorrelationData correlationData, boolean b, String s) {
-        if (b) {
-            System.out.println("ack send succeed: " + correlationData);
-        } else {
-            System.out.println("ack send failed: " + correlationData + "|" + s);
-        }
-    }
-
-    @Override
-    public void returnedMessage(Message message, int i, String s, String s1, String s2) {
-        System.out.println("ack " + message + " 发送失败");
     }
 }
