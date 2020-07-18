@@ -22,7 +22,7 @@ import org.apache.ibatis.type.Alias;
  * @since 2020-07-17
  */
 @Data
-//@Alias("user")
+@Alias("user")  //只要扫描了就可以不加，只不过idea会报红
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
 @ApiModel(value="User对象", description="")

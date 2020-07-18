@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.ibatis.type.Alias;
 
 /**
  * <p>
@@ -18,6 +19,7 @@ import lombok.EqualsAndHashCode;
  * @since 2020-07-17
  */
 @Data
+@Alias("permission")
 @EqualsAndHashCode(callSuper = false)
 @TableName("permission")
 @ApiModel(value="Permission对象", description="")

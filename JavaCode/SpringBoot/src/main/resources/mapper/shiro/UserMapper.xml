@@ -2,6 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qin.myspringboot.shiro.mapper.UserMapper">
     <resultMap id="userRolePermission" type="user">
-
+        <id column="uid" property="id"/>
+        <result column="uusername" property="username"/>
+        <result column="upassword" property="password"/>
+        <result column="usalt" property="salt"/>
+        <result column="ustate" property="state"/>
+        <collection property="roles" javaType="list" ofType="role">
+            <id column="rid" property="id"/>
+            <result column="rrole" property="role"/>
+            <result column="rdescription" property="description"/>
+            <result column="ravailable" property="available"/>
+            <collection property="permissions" javaType="list" ofType="permission">
+                <id column="pid" property="id"/>
+                <result column="pname" property="name"/>
+                <result column="presource_type" property="resourceType"/>
+                <result column="purl" property="url"/>
+                <result column="ppermission" property="permission"/>
+                <result column="pparentid" property="parentid"/>
+                <result column="pparentids" property="parentids"/>
+                <result column="pavailable" property="available"/>
+            </collection>
+        </collection>
     </resultMap>
+
+    <select id="selectUserRolePermission" resultMap="userRolePermission" parameterType="string">
+        select u.id uid,u.username uusername,u.password upassword,u.salt usalt,u.state ustate,
+               r.id rid,r.role rrole,r.description rdescription,r.available ravailable,
+               p.id pid,p.name pname,p.resource_type presource_type,p.url purl,p.permission ppermission,p.parentid pparentid,p.parentids pparentids,p.available pavailable
+        from user u
+        left join  user_role ur on u.id = ur.userid
+        left join role r on ur.roleid = r.id
+        left join role_permission rp on r.id = rp.roleid
+        left join permission p on rp.permissionid = p.id
+        where u.username =#{username}
+    </select>
 </mapper>

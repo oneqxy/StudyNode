@@ -59,7 +59,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) usernamePasswordToken.getPrincipal();
 
         //2.根据用户账号，查用户信息
-        User user = userService.getOne(new QueryWrapper<User>().eq("username", username));
+        User user = userService.selectUserRolePermission(username);
 
         //3、判断用户名称是否存在
         if (user == null){
