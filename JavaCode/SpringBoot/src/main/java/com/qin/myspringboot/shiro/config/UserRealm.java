@@ -5,6 +5,7 @@ import com.qin.myspringboot.shiro.entity.Permission;
 import com.qin.myspringboot.shiro.entity.Role;
 import com.qin.myspringboot.shiro.entity.User;
 import com.qin.myspringboot.shiro.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -67,20 +68,25 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         //4、判断密码是否正确
-        //return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(user.getSalt()) , getName());
+        return new SimpleAuthenticationInfo(user,user.getPassword(), ByteSource.Util.bytes(user.getSalt()) , getName());
 
         //4、判断密码是否正确（明文）
-        return new SimpleAuthenticationInfo(user,user.getPassword(), getName());
+        //return new SimpleAuthenticationInfo(user,user.getPassword(), getName());
     }
 
     /**
      * 设置认证加密方式
      */
-//    @Bean
+//    @Override
 //    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
 //        HashedCredentialsMatcher md5CredentialsMatcher = new HashedCredentialsMatcher();
 //        md5CredentialsMatcher.setHashAlgorithmName(ShiroKit.HASH_ALGORITHM_NAME);
 //        md5CredentialsMatcher.setHashIterations(ShiroKit.HASH_ITERATIONS);
 //        super.setCredentialsMatcher(md5CredentialsMatcher);
 //    }
+
+    public void clearCache(){
+        PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principals);
+    }
 }

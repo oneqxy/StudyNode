@@ -85,7 +85,7 @@ public class ShiroConfig {
         filterMap.put("/static/**", "anon");
         filterMap.put("/login" , "anon");
         filterMap.put("/logout", "logout");     // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterMap.put("/**", "authc");
+        filterMap.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         shiroFilterFactoryBean.setUnauthorizedUrl("/toNoAuth");//如果没权限跳转到／noAuth请求
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
@@ -114,13 +114,14 @@ public class ShiroConfig {
     @Bean
     public UserRealm getRealm() {
         UserRealm userRealm =new UserRealm();
-        //userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return userRealm;
     }
 
     /**
      * 凭证匹配器 （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
      * 所以我们需要修改下doGetAuthenticationInfo中的代码; @return
+     * 这个的优先度在realm的后面
      */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
